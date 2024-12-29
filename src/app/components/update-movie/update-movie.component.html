@@ -1,12 +1,14 @@
-<div class="min-h-screen flex items-center justify-center bg-slate-800">
-    <div class="bg-white p-8 rounded-2xl shadow-md w-full max-w-md mt-10">
-      <h2 class="text-2xl font-bold mb-8 text-blue-900 text-center">Add Movie</h2>
-      <form [formGroup]="addMovieForm" (ngSubmit)="addMovie()">
+<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 space-y-6">
+  
+      <h2 class="text-2xl font-bold mb-8 text-blue-900 text-center">Update Movie</h2>
+  
+      <form [formGroup]="updateMovieForm" (ngSubmit)="updateMovie()" class="space-y-4">
         <div *ngIf="inlineNotification.show" class="text-red-600 mt-4 text-center">
           {{ inlineNotification.text }}
         </div>
   
-        <div class="mb-4">
+        <div class="flex flex-col space-y-1">
           <label for="title" class="block text-gray-700">Title</label>
           <input type="text" id="title" formControlName="title" required
                  class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
@@ -15,7 +17,7 @@
           </div>
         </div>
   
-        <div class="mb-4">
+        <div class="flex flex-col space-y-1">
           <label for="director" class="block text-gray-700">Director</label>
           <input type="text" id="director" formControlName="director" required
                  class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
@@ -24,7 +26,7 @@
           </div>
         </div>
   
-        <div class="mb-4">
+        <div class="flex flex-col space-y-1">
           <label for="studio" class="block text-gray-700">Studio</label>
           <input type="text" id="studio" formControlName="studio" required
                  class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
@@ -33,7 +35,7 @@
           </div>
         </div>
   
-        <div class="mb-4">
+        <div class="flex flex-col space-y-1">
           <label for="movieCast" class="block text-gray-700">Movie Cast</label>
           <input type="text" id="movieCast" formControlName="movieCast" required
                  class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
@@ -43,7 +45,7 @@
           </div>
         </div>
   
-        <div class="mb-4">
+        <div class="flex flex-col space-y-1">
           <label for="releaseYear" class="block text-gray-700">Release Year</label>
           <input type="text" id="releaseYear" formControlName="releaseYear" required
                  class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
@@ -53,16 +55,23 @@
           </div>
         </div>
   
-        <div class="mb-4">
-          <label for="file" class="block text-gray-700">Poster</label>
-          <input type="file" id="file" formControlName="poster" required
-                 (change)="onFileSelected($event)"
-                 class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
+        <div class="flex flex-col space-y-1">
+          <label for="file" class="text-gray-700 font-medium">Poster</label>
+          <input
+            type="file"
+            id="file"
+            formControlName="poster"
+            (change)="onFileSelected($event)"
+            class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
   
-        <div class="flex justify-center">
-          <button type="submit" class="w-2/4 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Add Movie
+        <div class="flex justify-between items-center space-x-4">
+          <button type="submit" class="w-1/2 bg-blue-700 text-white py-2 rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Update Movie
+          </button>
+          <button type="button" (click)="cancel()" class="w-1/2 bg-gray-500 text-white py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+            Cancel
           </button>
         </div>
   

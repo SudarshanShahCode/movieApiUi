@@ -1,0 +1,16 @@
+<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 space-y-6">
+  
+      <h2 class="text-2xl font-bold mb-8 text-red-600 text-center">Delete Movie</h2>
+      <p>Are you sure you want to delete the movie <strong>{{data?.movie?.title}}</strong> ? The data will be deleted permanently!</p>
+        <div class="flex justify-between items-center space-x-4">
+          <button type="button" (click)="delete()" class="w-1/2 bg-blue-700 text-white py-2 rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Delete
+          </button>
+          <button type="button" (click)="cancel()" class="w-1/2 bg-gray-500 text-white py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+            Cancel
+          </button>
+        </div>
+    </div>
+  </div>
+  

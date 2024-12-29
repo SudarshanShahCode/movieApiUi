@@ -1,1 +1,24 @@
-<h1 class="text-center font-bold">Home</h1>
+<div class="bg-slate-800 min-h-screen p-8">
+    <div class="container mx-auto mt-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div *ngFor="let movie of movies" class="max-w-sm rounded overflow-auto shadow-lg bg-white">
+          <img class="w-full h-64 object-cover" [src]="movie.posterUrl" alt="Poster of {{movie.title}}">
+          <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2">{{movie.title}}</div>
+            <p class="text-gray-700 text-base">Directed by: {{movie.director}}</p>
+            <p class="text-gray-700 text-base">Studio: {{movie.studio}}</p>
+            <p class="text-gray-700 text-base">Release Year: {{movie.releaseYear}}</p>
+          </div>
+          <div class="px-6 pt-4 pb-2">
+            <span *ngFor="let cast of movie.movieCast" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              {{cast}}
+            </span>
+          </div>
+          <div *ngIf="isAdmin()" class="px-6 pt-4 pb-2">
+            <button type="submit" (click)="update(movie)" class="w-full bg-yellow-300 text-black px-4 my-2 py-2 rounded hover:bg-blue-700 hover:text-white">Update</button>
+            <button type="submit" (click)="delete(movie)" class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

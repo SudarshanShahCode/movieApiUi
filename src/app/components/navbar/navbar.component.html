@@ -4,7 +4,7 @@
     </div>
     <div class="flex space-x-8">
       <a routerLink="/" class="hover:text-yellow-500 text-xl">Home</a>
-      <div class="relative group">
+      <div class="relative group" *ngIf="isAdmin()">
         <a class="hover:text-yellow-500 text-xl cursor-pointer">Movies</a>
         <div class="absolute hidden group-hover:block bg-blue-800 rounded shadow-lg mt-1">
           <a routerLink="/show-movies" class="block px-4 py-2 hover:bg-blue-700">Show Movies</a>
@@ -18,7 +18,7 @@
 
         <!-- For Logged in User -->
         <div class="flex items-center space-x-2" *ngIf="isLoggedIn()">
-          <h2 class="font-bold text-yellow-300 px-3 py-2 rounded text-lg">{{name}}</h2>
+          <h2 class="font-bold text-yellow-300 px-3 py-2 rounded text-lg">{{getName()}}</h2>
           <a (click)="logout()" class="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded hover:cursor-pointer">Logout</a>
         </div>
 

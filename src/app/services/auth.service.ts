@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,21 +24,23 @@ export class AuthService {
         sessionStorage.setItem('accessToken', response.accessToken);
         sessionStorage.setItem('refreshToken', response.refreshToken);
         sessionStorage.setItem('name', response.name);
-        sessionStorage.setItem('username', response.username);
         sessionStorage.setItem('email', response.email);
+
+        const decodedToken: any = jwtDecode(response.accessToken);
+        sessionStorage.setItem('role', decodedToken.role[0].authority);
       }
     }));
   }
 
   isAuthenticated(): boolean {
-    return !!sessionStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
+    return token!= null && !this.isTokenExpired(token);
   }
 
   logout(): void {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('name');
-    sessionStorage.removeItem('username');
     sessionStorage.removeItem('email');
   }
 
@@ -47,6 +50,34 @@ export class AuthService {
 
   getLoggedIn(): WritableSignal<boolean> {
     return this.loggedIn;
+  }
+
+  isTokenExpired(token: string): boolean {
+    const decodedToken: any = jwtDecode(token);
+    return (decodedToken.exp * 1000) < Date.now();
+  }
+
+  refreshToken(): Observable<any> {
+    const refToken = sessionStorage.getItem('refreshToken');
+    const rtobj: RefreshTokenRequest = {
+      refreshToken: refToken
+    }
+    return this.http.post(`${this.BASE_URL}/api/v1/auth/refresh`, {rtobj}).pipe(
+      tap((res: any) => sessionStorage.setItem('accessToken', res.accessToken)),
+      catchError(err => {
+        this.logout();
+        return throwError(() => err);
+      })
+    )
+  }
+
+  hasRole(role: string): boolean {
+    const token = sessionStorage.getItem('accessToken');
+    if(token) {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken?.role[0]?.authority.includes(role);
+    }
+    return false;
   }
 }
 
@@ -68,4 +99,8 @@ export type AuthResponse = {
 export type LoginRequest = {
   email: string,
   password: string,
+}
+
+export type RefreshTokenRequest = {
+  refreshToken: string | null,
 }
